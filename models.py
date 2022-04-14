@@ -23,7 +23,7 @@ class SupermarketModel(Base):
 class ProductModel(Base):
     __tablename__ = PRODUCT_TABLE_NAME
     id = Column(String(8), primary_key=True)
-    name = Column(String(100), nullable=False)
+    name = Column(String(255), nullable=False)
     id_category = Column(String(8), ForeignKey('category.id'))
     id_supermarket = Column(String(8), ForeignKey('supermarket.id'))
     url = Column(String(2083), nullable=False)
