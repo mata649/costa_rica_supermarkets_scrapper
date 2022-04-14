@@ -42,7 +42,7 @@ def _extract(supermarket: Supermarket) -> None:
 @click.option('--supermarket', type=click.Choice([name for name in supermarkets.keys()]), help='The supermarket used in the ETL process')
 def run(supermarket: str):
     """
-    ETL process to save the price through the products time of the main supermarkets of Costa Rica.
+   ETL process to save the price through the products time of the main supermarkets of Costa Rica. ඞ
     """
     os.makedirs(DATA_DIR, exist_ok=True)
 
