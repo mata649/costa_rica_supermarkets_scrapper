@@ -17,7 +17,7 @@ class PriceSmartSpider(Spider):
             'name': product_name,
             'price': product_price,
             'category': kwargs['category'],
-            'url_product': response.url
+            'url': response.url
         }
 
     def parse_category(self, response):

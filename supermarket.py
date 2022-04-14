@@ -1,8 +1,8 @@
+
 from scrapy import Spider
-
 from cfg import RUN_DATE
-
 import os
+import pandas as pd
 
 
 class Supermarket:
@@ -18,3 +18,9 @@ class Supermarket:
                 }
             },
         }
+    
+
+
+
+class SupermarketException(Exception):
+   pass

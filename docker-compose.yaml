@@ -6,7 +6,8 @@ services:
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: data_analytics
+          POSTGRES_DB: costa_rica_supermarkets
+        
         ports:
           - '5432:5432'
         volumes: 
