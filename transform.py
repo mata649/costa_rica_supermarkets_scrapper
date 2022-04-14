@@ -34,7 +34,7 @@ class TransformSupermarket:
         self.products_data_frame[id_col_name] = self.products_data_frame[col_name].apply(
             lambda name: fletcher32(name.encode()).hexdigest())
 
-    def get_data_frame_from_products_data_frame(self, id_col_name: str, col_name: str) -> pd.Data_Frame:
+    def get_data_frame_from_products_data_frame(self, id_col_name: str, col_name: str) -> pd.DataFrame:
         """
             Returns a data frame from products data frame, based in a id column and a column name,
             also will delete the column name specified, leaving the id column as a reference to the new
@@ -44,7 +44,7 @@ class TransformSupermarket:
             col_name (str): The name of the column to save the information in the new data frame.
 
         Returns:
-            pd.Data_Frame: The new data frame with the information specified.
+            pd.DataFrame: The new data frame with the information specified.
         """
         new_data_frame = self.products_data_frame[[id_col_name, col_name]]
         new_data_frame_id = pd.Series(new_data_frame[id_col_name].unique())
@@ -70,11 +70,11 @@ class TransformSupermarket:
             'id', 'price']].rename(columns={'id': 'id_product'})
         del self.products_data_frame['price']
 
-    def save_to_csv(self, data_frame: pd.Data_Frame, table_name) -> str:
+    def save_to_csv(self, data_frame: pd.DataFrame, table_name) -> str:
         """ Saves the data frame information in a csv, in the data directory,
             the name of the new csv will be defined for the table name arg.
         Args:
-            data_frame (pd.Data_Frame): The data frame to save the information in a csv.
+            data_frame (pd.DataFrame): The data frame to save the information in a csv.
             table_name (_type_): The name of the csv to save.
 
         Returns:

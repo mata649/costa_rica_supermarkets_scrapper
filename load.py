@@ -61,6 +61,14 @@ class SupermarketLoader:
         for file_path in self.file_paths.values():
             os.remove(file_path)
 
+    def drop_temp_table(self):
+        """
+        Drop the temporal table.
+        """
+        with engine.begin() as cn:
+            sql = f'DROP TABLE temp_table'
+            cn.execute(sql)
+
     def load(self):
         """
         Saves the information in the database using the csv in the 
@@ -73,3 +81,4 @@ class SupermarketLoader:
             else:
                 self.load_with_not_repeated_items(table_name)
         self.delete_csv()
+        self.drop_temp_table()
