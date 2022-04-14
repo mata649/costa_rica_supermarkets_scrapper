@@ -84,6 +84,15 @@ class TransformSupermarket:
         data_frame.to_csv(csv_path, index=False)
         return csv_path
 
+    def remove_duplicates_and_null_fields(self):
+        """
+        Remove duplicate products in product data frame based on product id.
+        Also removes rows with null data
+        """
+        self.products_data_frame = self.products_data_frame.drop_duplicates(subset=['id'])
+        self.products_data_frame = self.products_data_frame.dropna(how='any',axis=0) 
+
+
     def transform(self) -> dict:
         """ 
         Transforms and divides the raw information and return 
@@ -94,6 +103,7 @@ class TransformSupermarket:
         logger.info('Starting transformation process')
         self.add_col_id(col_name='url', id_col_name='id')
         self.add_col_id(col_name='category', id_col_name='id_category')
+        self.remove_duplicates_and_null_fields()
         self.set_supermarket()
         self.category_data_frame = self.get_data_frame_from_products_data_frame(
             id_col_name='id_category', col_name='category')
