@@ -54,8 +54,9 @@ You can create the tables in a easy way running the next commands:
     alembic upgrade heads
 
    
-**ER Diagram** 
-![Alt text](https://i.postimg.cc/9X9hVkqc/ERD-diagram.png)
+## ER Diagram
+
+![Alt text](https://github.com/mata649/costa_rica_supermarkets_scrapper/blob/images/ERD%20diagram.png)
 
 
 ## Running ETL Process
