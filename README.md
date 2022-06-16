@@ -20,7 +20,7 @@ After you have to active the **virtual enviroment**
  **Mac OS / Linux**
  
 
-    source ./venv/Scripts/activate
+    source ./venv/bin/activate
     
    Andfinallyl,y you can install the dependencies running this command:
    
