@@ -1,6 +1,6 @@
 # costa_rica_supermarkets_scrapper
 
-This ETL process extracts product information from the main supermarkets in Costa Rica and stores product price information over time. For this project I used **scrapy** to extract the information, **pandas** to transform and normalize the information and **SQLAlchemy** to save. Also I used **alembic** to migrate in a easy way the tables and **docker-compose**  to setup the database in an easy way.
+This ETL process extracts product information from the main supermarkets in Costa Rica and stores product price information over time. For this project I used **scrapy** to extract the information, **pandas** to transform and normalize the information, and **SQLAlchemy** to save. Also, I used **alembic** to migrate the easy way the tables and **docker-compose**  to set up the database in an easy way.
 
 ## Requirements
 
@@ -8,7 +8,7 @@ This ETL process extracts product information from the main supermarkets in Cost
  -  **venv:** The [`venv`](https://docs.python.org/3/library/venv.html#module-venv "venv: Creation of virtual environments.") module provides support for creating lightweight “virtual environments” with their own site directories, optionally isolated from system site directories.
 
 ## Installing Project Dependencies
-To install the project dependencies you need create a new **virtual enviromen**t with the next command:
+To install the project dependencies you need to create a new **virtual enviromen**t with the next command:
 
      py -m venv venv
 After you have to active the **virtual enviroment**  
@@ -22,25 +22,25 @@ After you have to active the **virtual enviroment**
 
     source ./venv/Scripts/activate
     
-   And finally you can install the dependencies running this command:
+   Andfinallyl,y you can install the dependencies running this command:
    
 
     pip install -r requeriments.txt
 
 ## Setup Database
-To setup the dabase you need open a terminal in the root project folder and run the next command
+To set up the database you need open a terminal in the root project folder and run the next command
 
     docker-compose up -d
-This command will create a container with a postgres database, you can access to this database throutgh the **5432 port**.
+This command will create a container with a Postgres database, you can access this database through the **5432 port**.
 **Database Information**
  - **user**: postgres
  - **password**: postgres
  - **host name:** postgres
  - **port**: 5432
 
-You can change the database parameters in the **docker-compose.yaml**, also you can change the database connection string in the **.env** file. 
+You can change the database parameters in the **docker-compose. YAML**, also you can change the database connection string in the **.env** file. 
 ## pgAdmin 4 Setup (Optional)
-The last command also will create a container with **pgAdmin 4** to manage the dabase, you can access to pgAdmin 4 with the next link [localhost:5050](http://localhost:5050).
+The last command also will create a container with **pgAdmin 4** to manage the database, you can access to pgAdmin 4 with the next link [localhost:5050](http://localhost:5050).
 The default login information is:
  - **email:** admin@admin.com
  - **password:** root
@@ -48,7 +48,7 @@ The default login information is:
 
 ## Creating the tables
 
-You can create the tables in a easy way running the next commands:
+You can easily create the tables running the next commands:
 
     alembic revision --autogenerate -m "Creating tables"   
     alembic upgrade heads
@@ -62,7 +62,7 @@ You can create the tables in a easy way running the next commands:
 ## Running ETL Process
 
     py main.py --help
-With the previous command you can see the general information of the program and also the supermarkets that you can choose, at the time of writing this readme, you can choose:
+With the previous command, you can see the general information of the program and also the supermarkets that you can choose, at the time of writing this readme, you can choose:
 
  - pequeno_mundo
  - pricesmart
