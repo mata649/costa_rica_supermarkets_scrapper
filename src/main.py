@@ -1,12 +1,12 @@
 from load import SupermarketLoader
 from spiders.pricesmart_spider import PriceSmartSpider
 from spiders.pequeno_mundo_spider import PequenoMundoSpider
-from supermarket import Supermarket
+from src.supermarket import Supermarket
 from scrapy.crawler import CrawlerProcess
 import logging
 import click
 import os
-from cfg import DATA_DIR
+from src.cfg import DATA_DIR
 from transform import TransformSupermarket
 
 logging.basicConfig(level=logging.INFO)

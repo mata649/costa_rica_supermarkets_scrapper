@@ -2,7 +2,7 @@ from asyncio.log import logger
 import os
 from sqlalchemy import create_engine
 import pandas as pd
-from cfg import DB_CONNSTR, PRODUCT_PRICE_TIMELAPSE_TABLE_NAME
+from src.cfg import DB_CONNSTR, PRODUCT_PRICE_TIMELAPSE_TABLE_NAME
 
 engine = create_engine(DB_CONNSTR)
 

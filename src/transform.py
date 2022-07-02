@@ -3,7 +3,7 @@ import os
 from hashlib_additional import fletcher32
 import pandas as pd
 
-from cfg import CATEGORY_TABLE_NAME, DATA_DIR, PRODUCT_PRICE_TIMELAPSE_TABLE_NAME, PRODUCT_TABLE_NAME, SUPERMARKET_TABLE_NAME
+from src.cfg import CATEGORY_TABLE_NAME, DATA_DIR, PRODUCT_PRICE_TIMELAPSE_TABLE_NAME, PRODUCT_TABLE_NAME, SUPERMARKET_TABLE_NAME
 
 
 class TransformSupermarket:
