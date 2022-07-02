@@ -1,5 +1,3 @@
-from psycopg2 import IntegrityError
-from sqlalchemy import create_engine, false
 from load import SupermarketLoader
 from spiders.pricesmart_spider import PriceSmartSpider
 from spiders.pequeno_mundo_spider import PequenoMundoSpider
