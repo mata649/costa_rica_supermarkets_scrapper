@@ -7,3 +7,5 @@ COPY requeriments.txt .
 RUN pip install -r requeriments.txt
 
 COPY src/ src/
+
+CMD tail -f /dev/null
