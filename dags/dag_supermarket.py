@@ -1,6 +1,6 @@
 from cgi import test
 from airflow import DAG
-from airflow.operators.bash_operator import BashOperator
+
 from airflow.utils.dates import days_ago
 
 default_args ={
@@ -13,9 +13,5 @@ with DAG(
     description='A simple tutorial DAG',
     schedule_interval='@daily',
     tags=['example'],) as dag:
-    test2 = BashOperator(
-        task_id="test2",
-        bash_command='',
-        do_xcom_push=True      
-    )
+    test_2 = DockerOperator(task_id='')
     
