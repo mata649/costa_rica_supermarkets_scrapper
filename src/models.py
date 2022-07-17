@@ -3,7 +3,7 @@ import sqlalchemy
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import declarative_base
 
-from cfg import CATEGORY_TABLE_NAME, PRODUCT_PRICE_TIMELAPSE_TABLE_NAME, PRODUCT_TABLE_NAME, SUPERMARKET_TABLE_NAME
+from src.cfg import CATEGORY_TABLE_NAME, PRODUCT_PRICE_TIMELAPSE_TABLE_NAME, PRODUCT_TABLE_NAME, SUPERMARKET_TABLE_NAME
 
 Base = declarative_base()
 

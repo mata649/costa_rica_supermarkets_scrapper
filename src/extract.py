@@ -1,24 +1,20 @@
-from psycopg2 import IntegrityError
-from sqlalchemy import create_engine, false
-from load import SupermarketLoader
-from spiders.pricesmart_spider import PriceSmartSpider
-from spiders.pequeno_mundo_spider import PequenoMundoSpider
-from supermarket import Supermarket
-from scrapy.crawler import CrawlerProcess
+import os
 import logging
 import click
-import os
+from scrapy.crawler import CrawlerProcess
+from supermarket import Supermarket
+from spiders.pricesmart_spider import PriceSmartSpider
+from spiders.pequeno_mundo_spider import PequenoMundoSpider
 from cfg import DATA_DIR
-from transform import TransformSupermarket
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
 
 supermarkets = {
     'pequeno_mundo': Supermarket(name='pequeno_mundo', spider=PequenoMundoSpider),
     'pricesmart': Supermarket(name='pricesmart', spider=PriceSmartSpider)
 }
+
 
 
 def _extract(supermarket: Supermarket) -> None:
@@ -40,22 +36,23 @@ def _extract(supermarket: Supermarket) -> None:
 
 @click.command()
 @click.option('--supermarket', type=click.Choice([name for name in supermarkets.keys()]), help='The supermarket used in the ETL process')
-def run(supermarket: str):
+def run(supermarket:str):
     """
-   ETL process to save the price through the products time of the main supermarkets of Costa Rica. ඞ
+    ETL process to save the price through the products time of the main supermarkets of Costa Rica. ඞ
+    --------------------------------------------------------------------------------------------------
+    Extracts the data from the selected supermarket
     """
     os.makedirs(DATA_DIR, exist_ok=True)
 
-    logger.info("Starting ETL process")
-
+    logger.info("Starting the extraction process")
     supermarket: Supermarket = supermarkets[supermarket]
-
     _extract(supermarket)
-    file_paths = TransformSupermarket(supermarket.file_path, supermarket.name).transform()
-    SupermarketLoader(file_paths).load()
-    
-    logger.info('ETL process done')
+    logger.info('Extraction process done')
 
+    print({'file_path':supermarket.file_path, 'name':supermarket.name})
 
 if __name__ == '__main__':
     run()
+
+
+

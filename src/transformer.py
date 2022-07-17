@@ -1,10 +1,12 @@
-from asyncio.log import logger
+import logging
 import os
 from hashlib_additional import fletcher32
 import pandas as pd
 
-from cfg import CATEGORY_TABLE_NAME, DATA_DIR, PRODUCT_PRICE_TIMELAPSE_TABLE_NAME, PRODUCT_TABLE_NAME, SUPERMARKET_TABLE_NAME
+from cfg import CATEGORY_TABLE_NAME, DATA_DIR, PRODUCT_PRICE_TIMELAPSE_TABLE_NAME, PRODUCT_TABLE_NAME, RUN_DATE, SUPERMARKET_TABLE_NAME
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class TransformSupermarket:
     def __init__(self, file_path: str, supermarket_name: str) -> None:
@@ -16,12 +18,13 @@ class TransformSupermarket:
             file_path (str): The file path to the raw information.
             supermarket_name (str): The name of the supermarket which the raw information was obtained
         """
+        self.file_path:str = file_path
         self.supermarket_name = supermarket_name
         self.products_data_frame = pd.read_csv(file_path)
         self.category_data_frame = None
         self.supermarket_data_frame = None
         self.price_timelapse_data_frame = None
-        os.remove(file_path)
+       
 
     def add_col_id(self, id_col_name: str, col_name: str):
         """ Adds a id column to products data frame, the id
@@ -80,7 +83,7 @@ class TransformSupermarket:
         Returns:
             str: Returns the file path where was saved the csv.
         """
-        csv_path = os.path.join(DATA_DIR, f'{table_name}.csv')
+        csv_path = os.path.join(DATA_DIR, f'{table_name}_{RUN_DATE}.csv')
         data_frame.to_csv(csv_path, index=False)
         return csv_path
 
@@ -110,7 +113,10 @@ class TransformSupermarket:
         self.supermarket_data_frame = self.get_data_frame_from_products_data_frame(
             id_col_name='id_supermarket', col_name='supermarket')
         self.set_price_timelapse_data_frame()
-
+        try:
+            os.remove(self.file_path)
+        except OSError:
+            logger.info(f'File {self.file_path} does not exists')
         return{
             SUPERMARKET_TABLE_NAME: self.save_to_csv(self.supermarket_data_frame, SUPERMARKET_TABLE_NAME),
             CATEGORY_TABLE_NAME: self.save_to_csv(self.category_data_frame, CATEGORY_TABLE_NAME),
