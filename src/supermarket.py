@@ -1,6 +1,6 @@
 
 from scrapy import Spider
-from src.cfg import RUN_DATE
+from cfg import RUN_DATE
 import os
 import pandas as pd
 
