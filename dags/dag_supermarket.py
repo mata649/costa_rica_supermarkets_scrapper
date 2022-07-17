@@ -10,16 +10,16 @@ default_args = {
     'start_date': days_ago(1)
 }
 
-supermarkets = ['pequeno_mundo']
+supermarkets = ['pequeno_mundo', 'pricesmart']
 docker_url = 'unix://var/run/docker.sock'
 MOUNT_DATA_DIRECTORY = os.getenv('MOUNT_DATA_DIRECTORY')
 
 with DAG(
     'dag_supermarket',
     default_args=default_args,
-    description='A simple tutorial DAG',
+    description='ETL supermarket',
     schedule_interval='@daily',
-        tags=['example'],) as dag:
+        tags=['supermarket'],) as dag:
 
     extract_list = []
     transform_list = []
