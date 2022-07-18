@@ -1,72 +1,49 @@
+
 # costa_rica_supermarkets_scrapper
 
-This ETL process extracts product information from the main supermarkets in Costa Rica and stores product price information over time. For this project I used **scrapy** to extract the information, **pandas** to transform and normalize the information, and **SQLAlchemy** to save. Also, I used **alembic** to migrate the easy way the tables and **docker-compose**  to set up the database in an easy way.
+This ETL process extracts product information from the main supermarkets in Costa Rica and stores product price information over time. For this project I used **scrapy** to extract the information, **pandas** to transform and normalize the information, and **SQLAlchemy** to save the data. Also, I used **alembic** to do the database migrations easily and **docker-compose**  to set up all the necessary to run the project. I use **airflow** to orchestrate the ETL's workflow.
 
 ## Requirements
 
- - **Docker compose:** Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. You can read more about docker compose [here](https://docs.docker.com/compose/)
- -  **venv:** The [`venv`](https://docs.python.org/3/library/venv.html#module-venv "venv: Creation of virtual environments.") module provides support for creating lightweight “virtual environments” with their own site directories, optionally isolated from system site directories.
+ - **Docker compose:** Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. You can read more about docker-compose [here](https://docs.docker.com/compose/)
+
 
 ## Installing Project Dependencies
-To install the project dependencies you need to create a new **virtual enviromen**t with the next command:
+As I said before, docker-compose is a requirement because the installation from all we will need is in the file docker-compose.yaml. So you don't need to be worried about installing any dependency or service, that is Docker's magic. The first that we are going to need is to run the next command to build an image from the project.
 
-     py -m venv venv
-After you have to active the **virtual enviroment**  
-**Windows**
-  
+    docker build -t supermarket_etl .
+The next is to run the next command to set up all our services but before that, you run the command you need to change something important in the **.env** file, in the last line you will see an environment variable called **MOUNT_DATA_DIRECTORY**. By default, the variable has the value **/home/data** but you have to change it to the directory where you want to save the .csv used in each process of the ETL, and also helps that in case one process fails, can be stored to be used in the next run. Another important thing is that has to be an absolute path, so if you have Windows has to be something like **"C:\data"**.
 
-      .\venv\Scripts\activate
-
- **Mac OS / Linux**
- 
-
-    source ./venv/bin/activate
-    
-   Andfinallyl,y you can install the dependencies running this command:
-   
-
-    pip install -r requeriments.txt
-
-## Setup Database
-To set up the database you need open a terminal in the root project folder and run the next command
+So once the **MOUNT_DATA_DIRECTORY** was changed, you can run the next command to set up all the services.
 
     docker-compose up -d
-This command will create a container with a Postgres database, you can access this database through the **5432 port**.
-**Database Information**
- - **user**: postgres
- - **password**: postgres
- - **host name:** postgres
- - **port**: 5432
-
-You can change the database parameters in the **docker-compose. YAML**, also you can change the database connection string in the **.env** file. 
-## pgAdmin 4 Setup (Optional)
-The last command also will create a container with **pgAdmin 4** to manage the database, you can access to pgAdmin 4 with the next link [localhost:5050](http://localhost:5050).
-The default login information is:
- - **email:** admin@admin.com
- - **password:** root
 
 
-## Creating the tables
+## Services Explanation
+The next diagram is going to help us how is composed all the services that are in the docker-compose file, and how are they related. The first important thing is to know that we are going to have **two Postgres databases**, one is used as the **Airflow Metadabase** and the other is used for the ETL to load the data. The airflow services are separated into different containers, one is used for the **webserver**, another for the **scheduler**, and the last is used to set up the configuration from the airflow service and creates the **metadatabase**. The **supermarket_etl_init** is a container used to run the **alembic** commands to run the migration and creates the tables in the **postgres_etl database**. 
 
-You can easily create the tables running the next commands:
 
-    alembic revision --autogenerate -m "Creating tables"   
-    alembic upgrade heads
+![Diagram](https://github.com/mata649/costa_rica_supermarkets_scrapper/blob/images/supermarket_etl.jpg?raw=true)
+
+
+The last is the containers created by our **airflow scheduler**, those containers are created and auto removed by **DockerOperator**.  The DockerOperator is used to run each process from our ETL, creating a docker container for each process, when the load process is executed, this load the information to the **Postgrest ETL Database**   
+
+Finally, we have a **pgAdmin4** container, to see both databases, this container is preconfigured with the connection to our database through the file **servers.json**.
+ ### Access to PgAdmin4
+ - **URL:**  `locahost:5050`  
+ -  **Email:** `admin@admin.com`
+ -  **Password:** `root`
+
+### Access to Airflow Webserver 
+ - **URL:**  `locahost:8080`  
+ -  **Username:** `airflow`
+ -  **Password:** `airflow`
 
    
 ## ER Diagram
 
-![Alt text](https://github.com/mata649/costa_rica_supermarkets_scrapper/blob/images/ERD%20diagram.png)
-
+![enter image description here](https://github.com/mata649/costa_rica_supermarkets_scrapper/blob/images/ERD%20diagram.png?raw=true)
 
 ## Running ETL Process
 
-    py main.py --help
-With the previous command, you can see the general information of the program and also the supermarkets that you can choose, at the time of writing this readme, you can choose:
-
- - pequeno_mundo
- - pricesmart
-
-To choose pequeno_mundo, have to run the next command:
-
-    py main.py --supermarket pequeno_mundo
+The ETL process is configured to run daily, you can change this by modifying the **dag_supermarket.py** in the folder **dags**, also you can check the workflows accessing the **airflow webserver**, if you have some problem running the ETL please contact to me or open an issue. Finally, I would like to remember to change the **MOUNT_DATA_DIRECTORY** variable in the **.env**, as I explained before, this is important to run the ETL
