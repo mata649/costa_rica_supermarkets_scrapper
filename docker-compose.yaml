@@ -22,14 +22,14 @@ x-depends-on:
 services:
     
     postgres:
-        image: postgres:14.2
+        image: postgres:14.4-alpine
         container_name: postgres
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: costa_rica_supermarkets
         healthcheck:
-          test: ["CMD", "pg_isready", "-U", "airflow"]
+          test: ["CMD", "pg_isready", "-U", "postgres"]
           interval: 5s
           retries: 5
         ports:
@@ -39,7 +39,11 @@ services:
        
     #Creates the tables
     supermarket_etl:
+      container_name: supermarket_etl
       image: supermarket_etl
+      build:
+        dockerfile: Dockerfile
+        context: .
       depends_on:
       - postgres
       entrypoint: /bin/bash
@@ -61,7 +65,7 @@ services:
     
 
     postgres_airflow:
-      image: postgres:14.2
+      image: postgres:14.4-alpine
       container_name: postgres_airflow
       ports:
         - "5434:5432"
@@ -89,7 +93,7 @@ services:
       restart: always
       command: webserver
       ports:
-        - "8080:8080"
+        - "8081:8080"
       healthcheck:
         test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
         interval: 30s

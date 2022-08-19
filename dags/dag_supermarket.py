@@ -10,7 +10,7 @@ default_args = {
     'start_date': days_ago(1)
 }
 
-supermarkets = ['pequeno_mundo']
+supermarkets = ['pequeno_mundo', 'pricesmart']
 docker_url = 'unix://var/run/docker.sock'
 MOUNT_DATA_DIRECTORY = os.getenv('MOUNT_DATA_DIRECTORY')
 
