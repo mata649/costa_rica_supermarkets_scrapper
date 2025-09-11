@@ -1,7 +1,7 @@
 
 # costa_rica_supermarkets_scrapper
 
-This ETL process extracts product information from the main supermarkets in Costa Rica and stores product price information over time. For this project, I used Scrapy to extract the information, pandas to transform and normalize the information, and SQLAlchemy to save the data. Also, I used Alembic to do the database migrations easily and Docker Compose to set up all the necessary components to run the project. I use Airflow to orchestrate the ETL workflow.
+Data pipeline using Scrapy, Pandas, SQLAlchemy, and Airflow to extract, transform, and load structured product information. The project runs fully containerized with Docker Compose and demonstrates how to automate data workflows with orchestration tools.
 
 ## Requirements
 
